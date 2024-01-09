@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compactible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>landingpage</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+    <div class="banner">
+        <div class="navbar">
+            <img src="logo1.png" alt="" class="logo">
+            
+            <ul>
+                <li><a href="#" onclick="showContent('HOME')">HOME</a></li>
+                <li><a href="#" onclick="showContent('Bedrooms')">Bedrooms</a></li>
+                <li><a href="#" onclick="showContent('Kitchen')">Kitchen</a></li>
+                <li><a href="#" onclick="showContent('Dining')">Dining</a></li>
+                <li><a href="#" onclick="showContent('LivingArea')">LivingArea</a></li>
+                <li><a href="#" onclick="showRegisterForm()">REGISTER</a></li>
+            </ul>
+        </div>
+        <div class="content" id="home">
+            <h1>DESIGN YOUR HOUSE</h1>
+            <p>FULFIL YOUR DREAMS</p>
+            <div>
+                <button type="button" onclick="showHomeDecorItems()"><span></span>EXPLORE</button>
+                <button type="button" onclick="showRegisterForm()"><span></span> REGISTER</button>
+            </div>
+        </div>
+        <div class="home-decor-items" id="home-decor-items-container"></div>
+    </div>
+    <div class="container">
+        <section class="one"></section>
+        <section class="two"></section>
+    </div>
+    <div class="container">
+        <section class="one" id="section-one"></section>
+        <section class="two" id="image-container"></section>
+    </div>
+    
+    <div id="registrationSection" style="display: none;">
+        <h1>Register for an Account</h1>
+        <button type="button" onclick="closeRegisterForm()">Close</button>
+
+        <div class="register-form" id="registerForm">
+            <h2>Register</h2>
+            <form>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showRegisterForm() {
+            var registrationSection = document.getElementById('registrationSection');
+            registrationSection.style.display = 'block';
+        }
+
+        function closeRegisterForm() {
+            var registrationSection = document.getElementById('registrationSection');
+            registrationSection.style.display = 'none';
+        }
+        function showContent(option) {
+            var sectionOne = document.getElementById('section-one');
+            var imageContainer = document.getElementById('image-container');
+            sectionOne.innerHTML = '';
+            imageContainer.innerHTML = '';
+            if (option === 'HOME') {
+                sectionOne.innerHTML = '<h2 class="h2-text">Home Section</h2><p>This is the home section.</p>';
+            } else if (option === 'Bedrooms') {
+                sectionOne.innerHTML = '<h2 class="h2-text">Bedrooms Section</h2><p>This is the bedrooms section samples.</p>';
+                showImages([
+                    { src: 'bedroom.jpg', info: 'ELITE BEDROOM', cost: '$1000', quote: 'Transform your bedroom into a sanctuary of serenity and style' },
+                    { src: 'bedroom2.jpg', info: 'LUXURIOUS BEDROOM', cost: '$1200', quote: 'Dream big, sleep tight, and wake up ready to conquer the day.' },
+                    { src: 'bedroom3.jpg', info: 'EXHAUSTING BEDROOM', cost: '$1100', quote: 'every night will be a masterpiece.' }
+                ]);
+            } else if (option === 'Kitchen') {
+                sectionOne.innerHTML = '<h2 class="h2-text">Kitchen Section</h2><p>This is the kitchen section samples.</p>';
+                showImages([
+                    { src: 'kitchen1.jpg', info: 'ELITE KITCHEN', cost: '$1500', quote: 'Chop it Like its Hot ' },
+                    { src: 'kitchen2.jpg', info: 'LUXURIOUS KITCHEN', cost: '$1300', quote: 'Spice up Your Life ' },
+                    { src: 'kitchen3.jpg', info: 'EXHAUSTING KITCHEN', cost: '$1300', quote: 'Savor the Flavor, Embrace the Moment. ' }
+                ]);
+            } else if (option === 'Dining') {
+                sectionOne.innerHTML = '<h2 class="h2-text">Dining Section</h2><p>This is the dining section samples.</p>';
+                showImages([
+                    { src: 'dining1.jpg', info: 'ELITE DINING ', cost: '$800', quote: 'Every Meal is a Journey, and the Journey Itself is Home.' },
+                    { src: 'dining2.jpg', info: 'LUXURIOUS DINING ', cost: '$900', quote: 'Savor the Flavor, Embrace the Moment.' },
+                    { src: 'dining3.jpg', info: 'EXHAUSTING DINING ', cost: '$850', quote: 'Good Food, Good Friends, Good Times.' }
+                ]);
+            } else if (option === 'LivingArea') {
+                sectionOne.innerHTML = '<h2 class="h2-text">Living Area Section</h2><p>This is the living area section samples.</p>';
+                showImages([
+                    { src: 'hall1.avif', info: 'Elite Living Area', cost: '$2000', quote: 'Creating a Haven for Comfort' },
+                    { src: 'hall2.jpg', info: 'Luxurious Living Area', cost: '$1800', quote: 'Surround Yourself with What You Love' },
+                    { src: 'hall3.jpg', info: 'Exhausting Living Area', cost: '$1800', quote: 'May Your Living Space Be Cozy, Your Conversations Be Rich' }
+                ]);
+            }
+        }
+
+        function showImages(imageInfoArray) {
+            var imageContainer = document.getElementById('image-container');
+            imageInfoArray.forEach(function(imageInfo, index) {
+                var imageWrapper = document.createElement('div');
+                imageWrapper.className = 'image-wrapper';
+                imageWrapper.addEventListener('click', function() {
+                    handleClick(imageInfo);
+                });
+                var imgElement = document.createElement('img');
+                imgElement.src = imageInfo.src;
+                imgElement.alt = 'Selected Image';
+                var overlay = document.createElement('div');
+                overlay.className = 'overlay';
+                var overlayContent = document.createElement('div');
+                overlayContent.className = 'overlay-content';
+                overlayContent.innerHTML = `
+                    <p>${imageInfo.info}</p>
+                    <p>Cost: ${imageInfo.cost}</p>
+                    <p>${imageInfo.quote}</p>
+                `;
+                overlay.appendChild(overlayContent);
+                imageWrapper.appendChild(imgElement);
+                imageWrapper.appendChild(overlay);
+                imageContainer.appendChild(imageWrapper);
+                void imageWrapper.offsetWidth;
+                imageWrapper.classList.add('show');
+            });
+        }
+
+        function handleClick(imageInfo) {
+            // Handle click on the image
+            var sectionOne = document.getElementById('section-one');
+            
+            // Display content for the clicked image
+            sectionOne.innerHTML = `
+                <h2 class="h2-text">FEATURES</h2>
+                <p>${imageInfo.info}</p>
+                <p>Cost: ${imageInfo.cost}</p>
+                <p>${imageInfo.quote}</p>
+            `;
+        }
+        function showHomeDecorItems() {
+            var homeDecorItemsContainer = document.getElementById('home-decor-items-container');
+            homeDecorItemsContainer.innerHTML = ''; // Clear existing content
+
+            // Add content for home decor items
+            showImages([
+                // Add your home decor items here
+                { src: 'decor1.webp', info: 'Home Decor Item 1', cost: '$50', quote: 'Beautiful addition to your home.' },
+                { src: 'decor2.webp', info: 'Home Decor Item 2', cost: '$60', quote: 'Enhance your living space.' },
+                { src: 'decor3.avif', info: 'Home Decor Item 3', cost: '$45', quote: 'A touch of elegance.' },
+                { src: 'decor3.avif', info: 'Home Decor Item 3', cost: '$35', quote: 'A touch of serenity.' }
+            ]);
+        }
+        
+    </script>
+</body>
+</html>
